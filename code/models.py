@@ -38,11 +38,13 @@ class MLP(torch.nn.Module):
         self.linear3 = torch.nn.Linear(hidden_dim2, output_dim)
         self.dropout1 = torch.nn.Dropout(0.2)
         self.dropout2 = torch.nn.Dropout(0.2)
+        self.batchnorm1 = torch.nn.BatchNorm1d(hidden_dim1)
         self.batchnorm2 = torch.nn.BatchNorm1d(hidden_dim2)
 
     def forward(self, X):
         out = self.linear1(X)
         out = F.relu(out)
+        out = self.batchnorm1(out)
         out = self.dropout1(out)
 
         out = self.linear2(out)
@@ -53,6 +55,53 @@ class MLP(torch.nn.Module):
         out = self.linear3(out)
         return out
 
+class MLP_nobatchnorm(torch.nn.Module):
+
+    def __init__(self, input_dim, hidden_dim1, hidden_dim2, output_dim):
+        super(MLP_nobatchnorm, self).__init__()
+        self.linear1 = torch.nn.Linear(input_dim, hidden_dim1)
+        self.linear2 = torch.nn.Linear(hidden_dim1, hidden_dim2)
+        self.linear3 = torch.nn.Linear(hidden_dim2, output_dim)
+        self.dropout1 = torch.nn.Dropout(0.2)
+        self.dropout2 = torch.nn.Dropout(0.2)
+        self.batchnorm1 = torch.nn.BatchNorm1d(hidden_dim1)
+        self.batchnorm2 = torch.nn.BatchNorm1d(hidden_dim2)
+
+    def forward(self, X):
+        out = self.linear1(X)
+        out = F.relu(out)
+        out = self.dropout1(out)
+
+        out = self.linear2(out)
+        out = F.relu(out)
+        out = self.dropout2(out)
+
+        out = self.linear3(out)
+        return out
+
+class MLP_nodo(torch.nn.Module):
+
+    def __init__(self, input_dim, hidden_dim1, hidden_dim2, output_dim):
+        super(MLP_nodo, self).__init__()
+        self.linear1 = torch.nn.Linear(input_dim, hidden_dim1)
+        self.linear2 = torch.nn.Linear(hidden_dim1, hidden_dim2)
+        self.linear3 = torch.nn.Linear(hidden_dim2, output_dim)
+        self.dropout1 = torch.nn.Dropout(0.2)
+        self.dropout2 = torch.nn.Dropout(0.2)
+        self.batchnorm1 = torch.nn.BatchNorm1d(hidden_dim1)
+        self.batchnorm2 = torch.nn.BatchNorm1d(hidden_dim2)
+
+    def forward(self, X):
+        out = self.linear1(X)
+        out = F.relu(out)
+        out = self.batchnorm1(out)
+
+        out = self.linear2(out)
+        out = F.relu(out)
+        out = self.batchnorm2(out)
+
+        out = self.linear3(out)
+        return out
 
 # use the CNN module previously used
 class CNN(nn.Module):
@@ -65,10 +114,10 @@ class CNN(nn.Module):
                 self.relu = nn.ReLU()
 
                 self.maxpool = nn.MaxPool1d(2)
-                
+
                 self.fc1 = nn.Linear(7936, 32)
                 #self.fc1 = nn.Linear(4608, 1474)
-        
+
 
         def forward(self, x):
                 x = self.bn1(self.relu(self.conv1(x)))
@@ -76,7 +125,7 @@ class CNN(nn.Module):
                 x = self.maxpool(x)
 
                 x = self.fc1(torch.flatten(x, 1))
-        
+
                 return x
 
 
@@ -89,7 +138,10 @@ def project(encoder, X, device, encoder_model):
 
     with torch.no_grad():
         encoder.eval()
-        X = torch.from_numpy(X).to(device=device, dtype=torch.float32)
+        if torch.is_tensor(X):
+            X = X.to(device=device, dtype=torch.float32)
+        else:
+            X = torch.from_numpy(X).to(device=device, dtype=torch.float32)
         emb_X = encoder(X).detach().cpu().numpy()
     return emb_X
 

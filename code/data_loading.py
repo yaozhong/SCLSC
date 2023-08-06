@@ -20,8 +20,7 @@ class GeneDataset(Dataset):
         self.one_hot_labels = F.one_hot(torch.from_numpy(labels))
         self.n_samples = genes.shape[0]
         self.n_genes = genes.shape[1]
-        # key for define label clusters
-        self.n_sampling = int(len(labels)*k)
+        self.n_sampling = k
         self.representative_tensor = None
         self.representative_labels = None
         self.device = torch.device("cpu")
@@ -46,6 +45,7 @@ class GeneDataset(Dataset):
     def to(self, device):
         self.device = device
 
+    #YUSRI: change the random sampling mean to take all sample mean
     def create_representative_tensor(self, genes, labels, k, n_rep_mat):
         n_labels = len(np.unique(labels))
         representative_tensor = np.zeros((n_rep_mat, n_labels, genes.shape[1]))
@@ -54,19 +54,15 @@ class GeneDataset(Dataset):
             representative_mat = representative_tensor[i_idx, :, :]
             for i in np.unique(labels):
                 repr_idx = np.argwhere(labels == i).flatten()
-                if n_rep_mat == -1:
-                    # Take mean all genes
-                    repr_vector = genes[i_idx, :].mean(axis=0)
-                else:
-                    #Take mean of Sampling with replacement
-                    repr_idx = np.random.choice(repr_idx, size=k)
-                    repr_vector = genes[repr_idx, :].mean(axis=0)
+                repr_vector = genes[repr_idx, :].mean(axis=0)
                 representative_mat[i, :] = repr_vector
             representative_labels[i_idx, :] = range(n_labels)
         representative_tensor = torch.from_numpy(representative_tensor)
-
-        return representative_tensor.to(
-            device=self.device, dtype=torch.float32), representative_labels
+        self.representative_labels = representative_labels
+        self.representative_tensor = representative_tensor.to(
+            device=self.device, dtype=torch.float32)
+        # return representative_tensor.to(
+        #     device=self.device, dtype=torch.float32), representative_labels
 
 
 

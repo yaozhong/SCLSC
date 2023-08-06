@@ -25,7 +25,7 @@ def predict(dataset_name, data_dir, save_path, gene_set, encoder_model, device, 
           cell_val, cell_test = cell_val_hvg, cell_test_hvg
     elif gene_set == "lvg":
           cell_val, cell_test = cell_val_lvg, cell_test_lvg
-  
+
     gene_dim = cell_test.X.toarray().shape[1]
 
     X_val,y_val = cell_val.X.toarray(),cell_val.obs.target
@@ -52,7 +52,7 @@ def predict(dataset_name, data_dir, save_path, gene_set, encoder_model, device, 
 
 
     print(f"@ Calculating ACC using KNN {knn_k} on dataset [{dataset_name}] ...")
-    
+
     emb_X_test = project(model, X_test, device, encoder_model)
     y_predict_test = knn.predict(emb_X_test)
     acc = metrics.accuracy_score(y_test, y_predict_test)
@@ -69,7 +69,7 @@ def predict(dataset_name, data_dir, save_path, gene_set, encoder_model, device, 
 
 if __name__ == "__main__":
 
-        set_seed(123)
+        set_seed(100)
         parser = argparse.ArgumentParser(description='<Contrastive learning for the single-cell representation>')
 
         parser.add_argument('--encoder',       default="MLP", type=str, required=True, help='contrastive learning encoding model')
@@ -81,13 +81,13 @@ if __name__ == "__main__":
         parser.add_argument('--gene_set', default="all",   type=str, required=True,  help="the gene list used.[all/hvg/lvg].")
 
         parser.add_argument('--margin',     default=1,       type=int, required=True, help='Margins used in the contrastive training')
-        parser.add_argument('--avg_sample_portion',     default=0.05,       type=float, required=True, help='cells used for the average representation')
+        parser.add_argument('--avg_k',     default=100,       type=int, required=True, help='cells used for the average representation')
         parser.add_argument('--knn_k',     default=10,       type=int, required=False, help='k of knn used model the cell type prediction')
         parser.add_argument('--lr',             default=1e-3,   type=float, required=False, help='Learning rate')
         parser.add_argument('--epoch',      default=100,       type=int, required=False, help='Training epcohs')
-        parser.add_argument('--batch_size' ,default=64,      type=int,  required=False, help="batch_size of the training.")
+        parser.add_argument('--batch_size' ,default=256,      type=int,  required=False, help="batch_size of the training.")
         parser.add_argument('--dropout'    ,default=0.1,      type=float,  required=False, help="Dropout rate.")
         parser.add_argument('--workers',     default=64,       type=int, required=False, help='number of worker for data loading')
 
         args = parser.parse_args()
-        predict(args.dataset_name, args.data_dir, args.output_dir, args.gene_set, args.encoder, args.device, args.lr, args.margin, args.batch_size, args.epoch, args.avg_sample_portion, args.knn_k)
+        predict(args.dataset_name, args.data_dir, args.output_dir, args.gene_set, args.encoder, args.device, args.lr, args.margin, args.batch_size, args.epoch, args.avg_k, args.knn_k)
