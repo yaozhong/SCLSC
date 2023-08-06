@@ -1,7 +1,7 @@
 # Supervised contrastive learning for single-cell annotation
 
 
-![](figures/overall_pipeline.eps)
+![](figure/overall_pipeline.eps)
 
 ## Enviroments and Package dependency
 
