@@ -11,7 +11,7 @@ import torch.nn.functional as F
 
 class GeneDataset(Dataset):
 
-    def __init__(self, adata, k):
+    def __init__(self, adata):
         genes = adata.X.toarray()
         labels = np.array(adata.obs.target)
         assert len(labels) == genes.shape[0]
@@ -20,7 +20,6 @@ class GeneDataset(Dataset):
         self.one_hot_labels = F.one_hot(torch.from_numpy(labels))
         self.n_samples = genes.shape[0]
         self.n_genes = genes.shape[1]
-        self.n_sampling = k
         self.representative_tensor = None
         self.representative_labels = None
         self.device = torch.device("cpu")
