@@ -45,7 +45,7 @@ class GeneDataset(Dataset):
         self.device = device
 
     #YUSRI: change the random sampling mean to take all sample mean
-    def create_representative_tensor(self, genes, labels, k, n_rep_mat):
+    def create_representative_tensor(self, genes, labels, n_rep_mat):
         n_labels = len(np.unique(labels))
         representative_tensor = np.zeros((n_rep_mat, n_labels, genes.shape[1]))
         representative_labels = np.zeros((n_rep_mat, n_labels), np.int32)
