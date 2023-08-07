@@ -12,6 +12,7 @@ def train(dataset_name, data_dir, save_path, gene_set, encoder_model, device, lr
 
     train_path = data_dir + "/" + dataset_name + "_train.h5ad"
     val_path   = data_dir + "/" + dataset_name + "_val.h5ad"
+    
 
 
     cell_train = sc.read_h5ad(train_path)
@@ -24,7 +25,6 @@ def train(dataset_name, data_dir, save_path, gene_set, encoder_model, device, lr
     if gene_set == "hvg":
         cell_train = cell_train[:, cell_train.var["highly_variable"]]
         cell_val = cell_val[:, cell_val.var["highly_variable"]]
-        cell_test = cell_test[:, cell_test.var["highly_variable"]]
 
 
 
