@@ -28,8 +28,8 @@ def train(dataset_name, data_dir, save_path, gene_set, encoder_model, device, lr
 
 
 
-    train_data = GeneDataset(cell_train, k)
-    valid_data = GeneDataset(cell_val,k)
+    train_data = GeneDataset(cell_train)
+    valid_data = GeneDataset(cell_val)
 
     train_loader = DataLoader(train_data, batch_size=bs, shuffle=False)
     if valid_data is not None:
@@ -148,9 +148,9 @@ def train_test(dataset_name, data_dir, save_path, gene_set, encoder_model, devic
 
 
 
-    train_data = GeneDataset(cell_train, k)
-    valid_data = GeneDataset(cell_val,k)
-    test_data = GeneDataset(cell_test, k)
+    train_data = GeneDataset(cell_train)
+    valid_data = GeneDataset(cell_val)
+    test_data = GeneDataset(cell_test)
 
     train_loader = DataLoader(train_data, batch_size=bs, shuffle=False)
     if valid_data is not None:
