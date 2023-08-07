@@ -39,20 +39,20 @@ The summary of the dataset, reference, and download link were provided as follow
 ## Learning cell and cell type embedding
 ```
 ENCODER="MLP"
-MARGIN=1
-AVG_K=1
+MARGIN=1.0
+BATCH_SIZE=256
 EPOCH=100
 GENE_SET="hvg"
 
 DATADIR=PATH_of_DATA_DIRECTORY
 MODEL_SAVE_DIR=PATH_of_MODEL_SAVE_DIRECTORY
 DATASET="zebrafish_all"
-OUTPUTDIR=PATH_of_OUTPUT_DIRECTORY
+OUTPUT_DIR=PATH_of_OUTPUT_DIRECTORY
 
 echo "Processing $DATASET"
 
 python sc2l_main.py --encoder $ENCODER  --dataset_name $DATASET --data_dir $DATADIR --model_dir $MODEL_SAVE_DIR \
---gene_set ${GENE_SET} --margin $MARGIN --avg_sample_portion $AVG_K --output_dir $OUTPUTDIR --epoch $EPOCH
+--gene_set ${GENE_SET} --margin $MARGIN  --output_dir $OUTPUT_DIR --epoch $EPOCH --batch_size $BATCH_SIZE
 
 ```
 
@@ -63,9 +63,10 @@ DATADIR=PATH_of_DATA_DIRECTORY"
 MODEL_SAVE_DIR=PATH_of_MODEL_SAVE_DIRECTORY
 DATASET="zebrafish_all"
 OUTPUTDIR=PATH_of_OUTPUT_DIRECTORY
+KNN_K =10
 
 python sc2l_test_knn.py --encoder $ENCODER  --dataset_name $DATASET --data_dir $DATADIR --model_dir $MODEL_SAVE_DIR \
---gene_set ${GENE_SET} --margin $MARGIN --avg_sample_portion $AVG_K --output_dir $OUTPUTDIR --epoch $EPOCH 
+--gene_set ${GENE_SET} --margin $MARGIN  --knn_k $KNN_K --output_dir $OUTPUTDIR --epoch $EPOCH 
 ```
 
 
