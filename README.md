@@ -56,17 +56,28 @@ python sc2l_main.py --encoder $ENCODER  --dataset_name $DATASET --data_dir $DATA
 
 ```
 
-## Cell type annotation and visualization
+## Cell type annotation
 
 ```
-DATADIR=PATH_of_DATA_DIRECTORY"
-MODEL_SAVE_DIR=PATH_of_MODEL_SAVE_DIRECTORY
-DATASET="zebrafish_all"
-OUTPUTDIR=PATH_of_OUTPUT_DIRECTORY
-KNN_K =10
+ENCODER="MLP"
+MARGIN=1.0
+BATCH_SIZE=256
+EPOCH=100
+GENE_SET="hvg"
 
-python sc2l_test_knn.py --encoder $ENCODER  --dataset_name $DATASET --data_dir $DATADIR --model_dir $MODEL_SAVE_DIR \
---gene_set ${GENE_SET} --margin $MARGIN  --knn_k $KNN_K --output_dir $OUTPUTDIR --epoch $EPOCH 
+
+
+DATASET="pancreas_all"
+
+DATADIR=PATH_of_DATA_DIRECTORY
+
+MODEL_DIR=PATH_of_SAVED_MODEL_DIRECTORY
+KNN_K=10
+echo "Processing $DATASET"
+
+
+python sc2l_test_knn.py --encoder $ENCODER  --dataset_name $DATASET --data_dir $DATADIR --model_dir $MODEL_DIR \
+--gene_set ${GENE_SET} --margin $MARGIN  --knn_k $KNN_K --epoch $EPOCH
 ```
 
 
