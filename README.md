@@ -15,6 +15,24 @@ Through this approach, the knowledge derived from annotated cells is transferred
 - scanpy
 - anndata
 
+## Dataset
+
+### Data preprocessing
+
+The datasets underwent preprocessing to eliminate cells with high mitochondrial gene expression (more than 5 percents of the cell total count), cells with minimal gene expression (number of genes per cell < 200), and genes that were only detected in a small number of cells (number of cells that expressed the gene < 3). 
+Subsequently, We selected 2000 highly variable genes (HGV) using analytic Pearson residuals implemented in Scanpy package. 
+Following this, we normalized the count of each cell to 10,000 counts and applied a $log(x+1)$ transformation. The resulting dataset was then divided into training, validation, and test sets with a ratio of $8:1:1$. All of the preprocessing steps were performed using Scanpy package. 
+The summary of the dataset, reference, and download link were provided as follows.
+
+
+PBMC      : \href{https://www.10xgenomics.com/resources/datasets/fresh-68-k-pbm-cs-donor-a-1-standard-1-1-0}
+Pancreas    : \href{https://figshare.com/ndownloader/files/22891151}
+Thymus    :\href{https://zenodo.org/record/5500511}{Thymus link}
+Lung    :\href{https://figshare.com/ndownloader/files/24539942}
+CeNGEN : \href{https://github.com/Munfred/wormcells-data/releases/download/taylor2020/taylor2020.h5ad}
+Zebrafish: \href{https://ndownloader.figshare.com/files/24566651?private_link=e3921450ec1bd0587870}
+Dengue dataset : \href{https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-9467/downloads}
+
 
 ## Learning cell and cell type embedding
 ```
