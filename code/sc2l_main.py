@@ -157,7 +157,7 @@ def train_test(dataset_name, data_dir, save_path, gene_set, encoder_model, devic
         valid_loader = DataLoader(valid_data, batch_size=bs, shuffle=False)
 
     train_data.create_representative_tensor(
-        train_data.genes, train_data.labels, train_data.n_sampling, epoch)
+        train_data.genes, train_data.labels, epoch)
     representative_tensor = train_data.representative_tensor
 
     train_data.to(device)
