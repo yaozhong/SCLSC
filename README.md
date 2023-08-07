@@ -25,6 +25,8 @@ Following this, we normalized the count of each cell to 10,000 counts and applie
 The summary of the dataset, reference, and download link were provided as follows.
 
 
+### Data download link
+
 - **PBMC**: [Fresh 68k PBMCs Donor A](https://www.10xgenomics.com/resources/datasets/fresh-68-k-pbm-cs-donor-a-1-standard-1-1-0)
 - **Pancreas**: [Figshare Pancreas Link](https://figshare.com/ndownloader/files/22891151)
 - **Thymus**: [Thymus link](https://zenodo.org/record/5500511)
