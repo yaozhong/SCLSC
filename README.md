@@ -81,7 +81,7 @@ python sc2l_test_knn.py --encoder $ENCODER  --dataset_name $DATASET --data_dir $
 ```
 
 ## Manuscript
-\url{https://www.biorxiv.org/content/10.1101/2023.08.08.552379v1.abstract}
+https://www.biorxiv.org/content/10.1101/2023.08.08.552379v1
 
 
 
