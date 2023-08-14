@@ -80,5 +80,8 @@ python sc2l_test_knn.py --encoder $ENCODER  --dataset_name $DATASET --data_dir $
 --gene_set ${GENE_SET} --margin $MARGIN  --knn_k $KNN_K --epoch $EPOCH
 ```
 
+## Manuscript
+\url{https://www.biorxiv.org/content/10.1101/2023.08.08.552379v1.abstract}
+
 
 
